@@ -31,9 +31,11 @@ function TicTacToeGame(playerOneId, playerTwoId) {
 
   self.getWinner = function(testBoard) {
     var winner;
-    if (winner = checkRow(testBoard, 1)) return winner;
-    if (winner = checkRow(testBoard, 2)) return winner;
-    if (winner = checkRow(testBoard, 3)) return winner;
+    
+    for (var i = 1; i < 4; i++) {
+      if (winner = checkRow(testBoard, i)) return winner;
+      if (winner = checkColumn(testBoard, i)) return winner;      
+    }
 
     return null;
   };
@@ -44,6 +46,18 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     if (testBoard[index] != null 
         && testBoard[index] == testBoard[index + 1] 
         && testBoard[index + 1] == testBoard[index + 2]) {
+      return testBoard[index];
+    }
+
+    return null;
+  }
+
+  function checkColumn(testBoard, column) {
+    var index = (column - 1);
+
+    if (testBoard[index] != null
+        && testBoard[index] == testBoard[index + 3]
+        && testBoard[index + 3] == testBoard[index + 6]) {
       return testBoard[index];
     }
 

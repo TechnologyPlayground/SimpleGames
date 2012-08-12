@@ -110,6 +110,27 @@ describe("TicTacToe Game", function() {
                                        letter, letter, letter]);
           expect(result).toEqual(letter);
         });
+
+        it("should return winner " + letter + " for first column", function() {
+          var result = game.getWinner([letter, other, null, 
+                                       letter, other, null, 
+                                       letter, null, null]);
+          expect(result).toEqual(letter);
+        });
+
+        it("should return winner " + letter + " for second column", function() {
+          var result = game.getWinner([other, letter, null, 
+                                       other, letter, null, 
+                                       null, letter, null]);
+          expect(result).toEqual(letter);
+        });
+
+        it("should return winner " + letter + " for third column", function() {
+          var result = game.getWinner([other, null, letter, 
+                                       other, null, letter, 
+                                       null, null, letter]);
+          expect(result).toEqual(letter);
+        });
       })(i);
     }
   });
