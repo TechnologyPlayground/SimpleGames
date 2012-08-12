@@ -69,5 +69,17 @@ describe("TicTacToe Game", function() {
         expect(game.board[i]).toEqual((i % 2) ? "O" : "X");
       }
     });
+
+    it("should return a null result if more moves are possible", function() {
+      expect(game.move(0)).toBeNull();
+    });
+
+    it("should return a tie if there was no winner", function() {
+      game.board = ["X", "X", "O", 
+                    "O", "O", "X", 
+                    "X", "O", null];
+      var result = game.move(8);
+      expect(result).toEqual({winner: null});
+    });
   });
 });

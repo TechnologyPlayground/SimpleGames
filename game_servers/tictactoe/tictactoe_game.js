@@ -22,6 +22,12 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     }
     lastMove = (lastMove == "X") ? "O" : "X";
     self.board[location] = lastMove;
+
+    if (self.board.indexOf(null) == -1) {
+      return {winner: null};
+    }
+
+    return null;
   };
 
   if (playerOneId) {
