@@ -37,43 +37,30 @@ function TicTacToeGame(playerOneId, playerTwoId) {
       if (winner = checkColumn(testBoard, i)) return winner;      
     }
 
-    if (testBoard[0] != null
-        && testBoard[0] == testBoard[4]
-        && testBoard[4] == testBoard[8]) {
-      return testBoard[0];
-    }
-
-    if (testBoard[2] != null
-        && testBoard[2] == testBoard[4]
-        && testBoard[4] == testBoard[6]) {
-      return testBoard[2];
-    }
+    if (winner = checkForWin(testBoard, 0, 4, 8)) return winner;
+    if (winner = checkForWin(testBoard, 2, 4, 6)) return winner;
 
     return null;
   };
 
   function checkRow(testBoard, row) {
     var index = (row - 1) * 3;
-
-    if (testBoard[index] != null 
-        && testBoard[index] == testBoard[index + 1] 
-        && testBoard[index + 1] == testBoard[index + 2]) {
-      return testBoard[index];
-    }
-
-    return null;
+    return checkForWin(testBoard, index, index + 1, index + 2);
   }
 
   function checkColumn(testBoard, column) {
     var index = (column - 1);
+    return checkForWin(testBoard, index, index + 3, index + 6);
+  }
 
-    if (testBoard[index] != null
-        && testBoard[index] == testBoard[index + 3]
-        && testBoard[index + 3] == testBoard[index + 6]) {
-      return testBoard[index];
+  function checkForWin(testBoard, index1, index2, index3) {
+    if (testBoard[index1] != null
+        && testBoard[index1] == testBoard[index2]
+        && testBoard[index2] == testBoard[index3]) {
+      return testBoard[index1];
     }
 
-    return null;
+    return null; 
   }
 
   if (playerOneId) {
