@@ -3,6 +3,7 @@ function TicTacToeGame(playerOneId, playerTwoId) {
 
   self.board = [];
   self.players = [];
+  var lastMove = "O";
 
   self.addPlayer = function(playerId) {
     if (self.players.length == 2) {
@@ -12,10 +13,15 @@ function TicTacToeGame(playerOneId, playerTwoId) {
   };
 
   self.move = function(location) {
+    console.log(location);
+    if (location < 0 || location > 8) {
+      throw("Location is invalid");
+    }
     if (self.board[location] != null) {
       throw("Location is already set");
     }
-    self.board[location] = "X";
+    lastMove = (lastMove == "X") ? "O" : "X";
+    self.board[location] = lastMove;
   };
 
   if (playerOneId) {

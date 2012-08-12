@@ -46,14 +46,28 @@ describe("TicTacToe Game", function() {
 
   describe("during a game", function() {
     for (var i = 0; i < 9; i++) {
-      it("should set an X at spot " + i, function() {
-        game.move(i);
+      var spot = i;
+      it("should set an X at spot " + spot, function() {
+        game.move(spot);
+        expect(game.board[spot]).toEqual("X");
       });
     }
 
     it("should throw if the spot is already set", function() {
       game.move(0);
       expect(function() { game.move(0) }).toThrow();
+    });
+
+    it("should throw if the spot is invalid", function() {
+      expect(function() { game.move(-1) }).toThrow();
+      expect(function() { game.move(9) }).toThrow();
+    });
+
+    it("should alternate Xs and Os", function() {
+      for (var i = 0; i < 9; i++) {
+        game.move(i);
+        expect(game.board[i]).toEqual((i % 2) ? "O" : "X");
+      }
     });
   });
 });
