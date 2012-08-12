@@ -2,3 +2,47 @@ extends layout
 
 block content
   h1 Tic-Tac-Toe
+
+  #first
+    div
+    form
+      input(autocomplete="off", value="Type Here")
+
+  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+  script(src="/js/lib/sockjs-0.3.1.min.js")
+  script
+    var sockjs_url = "/games";
+    var sockjs = new SockJS(sockjs_url);
+    $("#first input").focus();
+    var div = $("#first div");
+    var inp = $("#first input");
+    var form = $("#first form");
+    print = function(m, p) {
+      if (p == 'undefined') {
+        p = ""
+      }
+      else {
+        p = JSON.stringify(p);
+      }
+
+      div.append($("<code>").text(m + " " + p));
+      div.append($("<br>"));
+      div.scrollTop(div.scrollTop() + 10000);
+    }
+    sockjs.onopen = function() {
+      print("[*] open", sockjs.protocol);
+    }
+    sockjs.onmessage = function(e) {
+      print("[.] message", e.data);
+    }
+    sockjs.onclose = function() {
+      print("[*] close");
+    }
+
+    form.submit(function(e) {
+      e.preventDefault();
+      print("[ ] sending", inp.val());
+      sockjs.send(inp.val());
+      inp.val("");
+      return false;
+    });
