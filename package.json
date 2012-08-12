@@ -1,0 +1,10 @@
+{
+  "name": "SimpleGames",
+  "description": "Website that will host simple multiplayer games.",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "express": "3.x",
+    "hamljs": "0.6.x"
+  }
+}
