@@ -131,6 +131,20 @@ describe("TicTacToe Game", function() {
                                        null, null, letter]);
           expect(result).toEqual(letter);
         });
+
+        it("should return winner " + letter + " for top-left diagonal", function() {
+          var result = game.getWinner([letter, null, null, 
+                                       other, letter, other, 
+                                       null, null, letter]);
+          expect(result).toEqual(letter);
+        });
+
+        it("should return winner " + letter + " for top-right diagonal", function() {
+          var result = game.getWinner([null, null, letter, 
+                                       other, letter, other, 
+                                       letter, null, null]);
+          expect(result).toEqual(letter);
+        });
       })(i);
     }
   });

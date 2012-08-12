@@ -37,6 +37,18 @@ function TicTacToeGame(playerOneId, playerTwoId) {
       if (winner = checkColumn(testBoard, i)) return winner;      
     }
 
+    if (testBoard[0] != null
+        && testBoard[0] == testBoard[4]
+        && testBoard[4] == testBoard[8]) {
+      return testBoard[0];
+    }
+
+    if (testBoard[2] != null
+        && testBoard[2] == testBoard[4]
+        && testBoard[4] == testBoard[6]) {
+      return testBoard[2];
+    }
+
     return null;
   };
 
