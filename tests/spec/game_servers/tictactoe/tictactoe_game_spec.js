@@ -82,6 +82,23 @@ describe("TicTacToe Game", function() {
       var result = game.move(8);
       expect(result).toEqual({winner: null});
     });
+
+    it("should return the winner if there was a winner", function() {
+      game.board = ["X", "O", "O", 
+                    "O", "X", "X", 
+                    "X", "O", null];
+      var result = game.move(8);
+      expect(result).toEqual({winner: game.players[0]});
+    });
+
+    it("should return X as the next player initially", function() {
+      expect(game.nextPlayer()).toEqual(game.players[0]);
+    });
+
+    it("should return O as the next player after X's turn", function() {
+      game.move(0);
+      expect(game.nextPlayer()).toEqual(game.players[1]);
+    });
   });
 
   describe("winning scenarios", function() {

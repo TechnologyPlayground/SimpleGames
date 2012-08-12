@@ -12,6 +12,10 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     self.players.push(playerId);
   };
 
+  self.nextPlayer = function() {
+    return self.players[(lastMove == "X") ? 1 : 0];
+  };
+
   self.move = function(location) {
     if (location < 0 || location > 8) {
       throw("Location is invalid");
@@ -21,6 +25,11 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     }
     lastMove = (lastMove == "X") ? "O" : "X";
     self.board[location] = lastMove;
+
+    var winningLetter = self.getWinner(self.board);
+    if (winningLetter) {
+      return {winner: self.players[(winningLetter == "X") ? 0 : 1]};
+    }
 
     if (self.board.indexOf(null) == -1) {
       return {winner: null};
