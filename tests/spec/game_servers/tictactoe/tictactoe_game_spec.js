@@ -8,7 +8,7 @@ describe("TicTacToe Game", function() {
   describe("on a new game", function() {
     it("should start with an empty board", function() {
       for (var i = 0; i < 9; i++) {
-        expect(game.board[0]).toBeNull();
+        expect(game.board[i]).toBeNull();
       }
     });
 
@@ -46,11 +46,12 @@ describe("TicTacToe Game", function() {
 
   describe("during a game", function() {
     for (var i = 0; i < 9; i++) {
-      var spot = i;
-      it("should set an X at spot " + spot, function() {
-        game.move(spot);
-        expect(game.board[spot]).toEqual("X");
-      });
+      (function(spot) {
+        it("should set an X at spot " + spot, function() {
+          game.move(spot);
+          expect(game.board[spot]).toEqual("X");
+        });
+      })(i);
     }
 
     it("should throw if the spot is already set", function() {
@@ -81,5 +82,35 @@ describe("TicTacToe Game", function() {
       var result = game.move(8);
       expect(result).toEqual({winner: null});
     });
+  });
+
+  describe("winning scenarios", function() {
+    for (var i = 0; i < 2; i++) {
+      (function(pos) {
+        var letter = (pos == 0) ? "X" : "O";
+        var other = (pos == 1) ? "X" : "O";
+
+        it("should return winner " + letter + " for first row", function() {
+          var result = game.getWinner([letter, letter, letter, 
+                                       other, other, null, 
+                                       null, null, null]);
+          expect(result).toEqual(letter);
+        });
+
+        it("should return winner " + letter + " for second row", function() {
+          var result = game.getWinner([other, other, null, 
+                                       letter, letter, letter, 
+                                       null, null, null]);
+          expect(result).toEqual(letter);
+        });
+
+        it("should return winner " + letter + " for third row", function() {
+          var result = game.getWinner([other, other, null, 
+                                       null, null, null, 
+                                       letter, letter, letter]);
+          expect(result).toEqual(letter);
+        });
+      })(i);
+    }
   });
 });

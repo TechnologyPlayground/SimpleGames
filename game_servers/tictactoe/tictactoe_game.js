@@ -13,7 +13,6 @@ function TicTacToeGame(playerOneId, playerTwoId) {
   };
 
   self.move = function(location) {
-    console.log(location);
     if (location < 0 || location > 8) {
       throw("Location is invalid");
     }
@@ -29,6 +28,27 @@ function TicTacToeGame(playerOneId, playerTwoId) {
 
     return null;
   };
+
+  self.getWinner = function(testBoard) {
+    var winner;
+    if (winner = checkRow(testBoard, 1)) return winner;
+    if (winner = checkRow(testBoard, 2)) return winner;
+    if (winner = checkRow(testBoard, 3)) return winner;
+
+    return null;
+  };
+
+  function checkRow(testBoard, row) {
+    var index = (row - 1) * 3;
+
+    if (testBoard[index] != null 
+        && testBoard[index] == testBoard[index + 1] 
+        && testBoard[index + 1] == testBoard[index + 2]) {
+      return testBoard[index];
+    }
+
+    return null;
+  }
 
   if (playerOneId) {
     self.addPlayer(playerOneId);
