@@ -10,9 +10,11 @@
 }
 
 #tictactoe_board td.X {
-  background-color: red;
+  background-image: url(/images/tictactoe/x.svg);
+  background-repeat: no-repeat;
 }
 
 #tictactoe_board td.O {
-  background-color: blue;
+  background-image: url(/images/tictactoe/o.svg);
+  background-repeat: no-repeat;
 }
