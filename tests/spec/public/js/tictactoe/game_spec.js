@@ -180,9 +180,16 @@ describe("TicTacToe Client", function() {
 
   describe("when quitting a game", function() {
     beforeEach(function() {
+      conn = {
+        quit: function(location) {}
+      };
+
+      spyOn(conn, "quit");
+
+      game = new Game(conn);
       game.start("X");
       game.quit();
-    });
+    })
 
     it("should need a connection", function() {
       expect(game.needsConnection()).toBeTruthy();
@@ -194,6 +201,10 @@ describe("TicTacToe Client", function() {
 
     it("should have no player set", function() {
       expect(game.player()).toBeNull();
+    });
+
+    it("should call quit on the connection", function() {
+      expect(conn.quit).toHaveBeenCalled();
     });
   });
 });

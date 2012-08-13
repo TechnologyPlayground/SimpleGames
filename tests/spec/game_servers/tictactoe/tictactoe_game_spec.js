@@ -80,7 +80,7 @@ describe("TicTacToe Game", function() {
                     "O", "O", "X", 
                     "X", "O", null];
       var result = game.move(8);
-      expect(result).toEqual({winner: null});
+      expect(result).toEqual({winner: "TIE"});
     });
 
     it("should return the winner if there was a winner", function() {
@@ -88,16 +88,16 @@ describe("TicTacToe Game", function() {
                     "O", "X", "X", 
                     "X", "O", null];
       var result = game.move(8);
-      expect(result).toEqual({winner: game.players[0]});
+      expect(result).toEqual({winner: "X"});
     });
 
     it("should return X as the next player initially", function() {
-      expect(game.nextPlayer()).toEqual(game.players[0]);
+      expect(game.nextPlayer()).toEqual("X");
     });
 
     it("should return O as the next player after X's turn", function() {
       game.move(0);
-      expect(game.nextPlayer()).toEqual(game.players[1]);
+      expect(game.nextPlayer()).toEqual("O");
     });
   });
 
@@ -161,6 +161,13 @@ describe("TicTacToe Game", function() {
                                        other, letter, other, 
                                        letter, null, null]);
           expect(result).toEqual(letter);
+        });
+
+        it("should return tie as a winner if there is no winner", function() {
+          var result = game.getWinner(["X", "O", "X",
+                                       "X", "O", "O",
+                                       "O", "X", "X"]);
+          expect(result).toEqual("TIE");
         });
       })(i);
     }

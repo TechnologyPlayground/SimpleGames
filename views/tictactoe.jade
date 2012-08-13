@@ -11,33 +11,26 @@ block content
 
   div(data-bind="visible: waitingForOpponent") Waiting for opponent...
 
-  div(data-bind="visible: canMove && inProgress") It's your turn!
+  div(data-bind="visible: canMove() && inProgress()") It's your turn!
   div(data-bind="visible: isCompleted")
     span Done!  The winner was 
     span(data-bind="text: results")
+    div
+      a(href="#", data-bind="click: quit") New game
 
-  table#tictactoe_board(data-bind="visible: inProgress")
+  table#tictactoe_board(data-bind="visible: inProgress() || isCompleted()")
     tr
-      td(data-bind="attr: { class\: board()[0] }")
-        a(href="#", data-bind="click: function() { move(0) }, disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[1] }")
-        a(href="#", data-bind="click: function() { move(1) }", disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[2] }")
-        a(href="#", data-bind="click: function() { move(2) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[0] }, click: function() { move(0) }") &nbsp;
+      td(data-bind="attr: { class\: board()[1] }, click: function() { move(1) }") &nbsp;
+      td(data-bind="attr: { class\: board()[2] }, click: function() { move(2) }") &nbsp;
     tr
-      td(data-bind="attr: { class\: board()[3] }")
-        a(href="#", data-bind="click: function() { move(3) }", disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[4] }")
-        a(href="#", data-bind="click: function() { move(4) }", disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[5] }")
-        a(href="#", data-bind="click: function() { move(5) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[3] }, click: function() { move(3) }") &nbsp;
+      td(data-bind="attr: { class\: board()[4] }, click: function() { move(4) }") &nbsp;
+      td(data-bind="attr: { class\: board()[5] }, click: function() { move(5) }") &nbsp;
     tr
-      td(data-bind="attr: { class\: board()[6] }")
-        a(href="#", data-bind="click: function() { move(6) }", disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[7] }")
-        a(href="#", data-bind="click: function() { move(7) }", disable: board()[0] != null") _
-      td(data-bind="attr: { class\: board()[8] }")
-        a(href="#", data-bind="click: function() { move(8) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[6] }, click: function() { move(6) }") &nbsp;
+      td(data-bind="attr: { class\: board()[7] }, click: function() { move(7) }") &nbsp;
+      td(data-bind="attr: { class\: board()[8] }, click: function() { move(8) }") &nbsp;
 
   script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
   script(src="/js/lib/sockjs-0.3.1.min.js")

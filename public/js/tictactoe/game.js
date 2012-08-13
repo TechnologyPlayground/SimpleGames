@@ -43,8 +43,9 @@ function Game(conn) {
   self.start = function(playerLetter) {
     state("playing"); 
     self.player(playerLetter);
-    self.board([null, null, null, null, null, 
-      null, null, null, null]);
+    self.board([null, null, null, 
+                null, null, null, 
+                null, null, null]);
     whoseTurn("X");
   };
 
@@ -68,5 +69,6 @@ function Game(conn) {
     state("not connected");
     self.board([]);
     self.player(null);
+    conn.quit();
   };
 };

@@ -27,9 +27,14 @@ exports.tictactoeServer = function(sockjs_opts, server, prefix) {
     }
 
     conn.on('close', function() {
+      console.log("Closing connection " + conn.id + "...");
       var game = gameLookup[conn];
-      if (game == null) return;
+      if (game == null) {
+        console.log("WARN: Could not find game...");
+        return;
+      }
 
+      console.log("Deleting connection...");
       delete gameLookup[conn];
       for (var i = 0; i < game.players.length; i++) {
         if (game.players[i] != conn) {
@@ -39,7 +44,6 @@ exports.tictactoeServer = function(sockjs_opts, server, prefix) {
     });
 
     conn.on('data', function(message) {
-      console.log(conn);
       console.log(message);
 
       var game = gameLookup[conn];
@@ -53,12 +57,13 @@ exports.tictactoeServer = function(sockjs_opts, server, prefix) {
 
       if (data.message == "move") {
         console.log("Process move...");
-        if (game.nextPlayer() == conn) {
+        if (game.players[(game.nextPlayer() == "X") ? 0 : 1] == conn) {
           console.log("Moving...");
           var result = game.move(data.location);
           sendTurnMessage(game);
 
           if (result != null) {
+            console.log("Game over, deleting game...");
             delete gameLookup[game.players[0]];
             delete gameLookup[game.players[1]];
           }
@@ -75,7 +80,7 @@ exports.tictactoeServer = function(sockjs_opts, server, prefix) {
   function sendTurnMessage(game) {
     var data = JSON.stringify({  
       message: "takeTurn", 
-      whoseTurn: (game.nextPlayer() == game.players[0]) ? "X" : "O", 
+      whoseTurn: game.nextPlayer(), 
       board: game.board,
       winner: game.getWinner(game.board) 
     });
@@ -88,14 +93,4 @@ exports.tictactoeServer = function(sockjs_opts, server, prefix) {
 
   tictactoe.installHandlers(server, 
     {prefix: prefix + '/tictactoe'});
-
-  this.getAvailableGame = function() {
-    for (var i = 0; i < games.length; i++) {
-      if (games[i].player1 == null || games[i].player2 == null) {
-        return games[i];
-      }
-
-      games.push(new TicTacToeGame());
-    }
-  };
 };

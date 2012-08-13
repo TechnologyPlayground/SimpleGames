@@ -32,6 +32,7 @@ function Connection() {
     }
 
     sockjs.onclose = function() {
+      console.log("Closing connection...");
       game.quit();
     }
   };
@@ -39,6 +40,10 @@ function Connection() {
   self.move = function(location) {
     sockjs.send(JSON.stringify({ message: "move", location: location }));
   };
+
+  self.quit = function() {
+    sockjs.close();
+  }
 }
 
 /*

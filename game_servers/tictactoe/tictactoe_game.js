@@ -13,7 +13,7 @@ function TicTacToeGame(playerOneId, playerTwoId) {
   };
 
   self.nextPlayer = function() {
-    return self.players[(lastMove == "X") ? 1 : 0];
+    return (lastMove == "X") ? "O" : "X";
   };
 
   self.move = function(location) {
@@ -28,11 +28,7 @@ function TicTacToeGame(playerOneId, playerTwoId) {
 
     var winningLetter = self.getWinner(self.board);
     if (winningLetter) {
-      return {winner: self.players[(winningLetter == "X") ? 0 : 1]};
-    }
-
-    if (self.board.indexOf(null) == -1) {
-      return {winner: null};
+      return {winner: winningLetter};
     }
 
     return null;
@@ -49,6 +45,9 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     if (winner = checkForWin(testBoard, 0, 4, 8)) return winner;
     if (winner = checkForWin(testBoard, 2, 4, 6)) return winner;
 
+    if (testBoard.indexOf(null) == -1) {
+      return "TIE";
+    }
     return null;
   };
 
