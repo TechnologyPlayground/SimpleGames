@@ -1,48 +1,47 @@
 extends layout
 
+block append head
+  link(href="/css/tictactoe.css", rel="stylesheet", type="text/css")
+
 block content
   h1 Tic-Tac-Toe
 
-  #first
-    div
-    form
-      input(autocomplete="off", value="Type Here")
+  div(data-bind="visible: needsConnection")
+    a(href="#", data-bind="click: connect") Connect
+
+  div(data-bind="visible: waitingForOpponent") Waiting for opponent...
+
+  div(data-bind="visible: canMove && inProgress") It's your turn!
+  div(data-bind="visible: isCompleted")
+    span Done!  The winner was 
+    span(data-bind="text: results")
+
+  table#tictactoe_board(data-bind="visible: inProgress")
+    tr
+      td(data-bind="attr: { class\: board()[0] }")
+        a(href="#", data-bind="click: function() { move(0) }, disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[1] }")
+        a(href="#", data-bind="click: function() { move(1) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[2] }")
+        a(href="#", data-bind="click: function() { move(2) }", disable: board()[0] != null") _
+    tr
+      td(data-bind="attr: { class\: board()[3] }")
+        a(href="#", data-bind="click: function() { move(3) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[4] }")
+        a(href="#", data-bind="click: function() { move(4) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[5] }")
+        a(href="#", data-bind="click: function() { move(5) }", disable: board()[0] != null") _
+    tr
+      td(data-bind="attr: { class\: board()[6] }")
+        a(href="#", data-bind="click: function() { move(6) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[7] }")
+        a(href="#", data-bind="click: function() { move(7) }", disable: board()[0] != null") _
+      td(data-bind="attr: { class\: board()[8] }")
+        a(href="#", data-bind="click: function() { move(8) }", disable: board()[0] != null") _
 
   script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
   script(src="/js/lib/sockjs-0.3.1.min.js")
-  script
-    var sockjs_url = "/games";
-    var sockjs = new SockJS(sockjs_url);
-    $("#first input").focus();
-    var div = $("#first div");
-    var inp = $("#first input");
-    var form = $("#first form");
-    print = function(m, p) {
-      if (p == 'undefined') {
-        p = ""
-      }
-      else {
-        p = JSON.stringify(p);
-      }
-
-      div.append($("<code>").text(m + " " + p));
-      div.append($("<br>"));
-      div.scrollTop(div.scrollTop() + 10000);
-    }
-    sockjs.onopen = function() {
-      print("[*] open", sockjs.protocol);
-    }
-    sockjs.onmessage = function(e) {
-      print("[.] message", e.data);
-    }
-    sockjs.onclose = function() {
-      print("[*] close");
-    }
-
-    form.submit(function(e) {
-      e.preventDefault();
-      print("[ ] sending", inp.val());
-      sockjs.send(inp.val());
-      inp.val("");
-      return false;
-    });
+  script(src="/js/lib/knockout-2.1.0.js")
+  script(src="/js/tictactoe/connection.js")
+  script(src="/js/tictactoe/game.js")
+  script(src="/js/tictactoe/main.js")

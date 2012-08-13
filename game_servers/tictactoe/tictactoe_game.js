@@ -83,3 +83,9 @@ function TicTacToeGame(playerOneId, playerTwoId) {
     self.board[i] = null;
   }
 }
+
+if (exports) {
+  exports.createGame = function(playerOneId, playerTwoId) {
+    return new TicTacToeGame(playerOneId, playerTwoId);
+  }
+}

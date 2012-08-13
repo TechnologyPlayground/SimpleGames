@@ -1,0 +1,17 @@
+#tictactoe_board {
+  border: solid 1px black;
+}
+
+#tictactoe_board td {
+  width: 20px;
+  height: 20px;
+  border: solid 1px black;
+}
+
+#tictactoe_board td.X {
+  background-color: red;
+}
+
+#tictactoe_board td.O {
+  background-color: blue;
+}
