@@ -3,13 +3,19 @@ html
   block head
     head
       title Simple Multiplayer Games
+
+      link(href='http://fonts.googleapis.com/css?family=The+Girl+Next+Door|Play', rel='stylesheet', type='text/css')
+      link(href="/css/layout.css", rel="stylesheet", type="text/css")
   body
     header
-      h1 Simple Multiplayer Games
+      h1
+        span#simple Simple
+        span#games Games
       navigation
         ul
           li
             a(href="/") Home
           li
             a(href="/tictactoe") Tic-Tac-Toe
-    block content
+    #content
+      block content
