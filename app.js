@@ -19,5 +19,9 @@ app.get('/tictactoe', function(req, res) {
   res.render("tictactoe");
 });
 
+app.get('/blackjack', function(req, res) {
+  res.render("blackjack");
+});
+
 server.listen(3000);
 console.log('Listening on port 3000');
