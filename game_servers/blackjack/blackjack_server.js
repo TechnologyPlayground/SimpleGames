@@ -5,6 +5,7 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
   var self = this;
 
   self.games = {};
+  self.gamesByPlayer = {};
   self.nextGameId = 1;
 
   blackjack.on('connection', function(conn) {
@@ -20,23 +21,38 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
           var newGame = new BlackjackGame({ id: nextGameId,
                                             maxPlayers: data.maxPlayers,
                                             decks: data.decks,
-                                            name: data.name});
+                                            name: data.name });
           games[newGame.id] = newGame;
-          newGame.addPlayer(conn);
+          games[conn] = newGame;
+          newGame.addPlayer(conn, data.playerName);
           sendBasicGameData(conn, newGame);
           newGameId++;
           break;
         case 'join':
           var game = games[data.id];
-          game.addPlayer(conn);
-          sendBasicGameData(conn, game);
+          if (game.addPlayer(conn, data.playerName)) {
+            games[conn] = game;
+            sendBasicGameData(conn, game);
+
+            // Notify all the other players of the new player
+            for (var i = 0; i < game.players.length; i++) {
+              game.players[i].connection.write(JSON.stringify({
+                message: "new player",
+                newPlayer: data.playerName
+              }));
+            }
+          }
+          else {
+            conn.write(JSON.stringify({ error: "Too many players" }));
+          }
           break;
         case 'quit':
           break;
         case 'list':
           var gameList = [];
           for (var i = 0; i < games.length; i++) {
-            gameList.push({ id: games[i].id,
+            gameList.push({ message: "list",
+                            id: games[i].id,
                             name: games[i].name,
                             players: games[i].players.length});
           }
@@ -46,10 +62,18 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
     });
 
     function sendBasicGameData(connection, game) {
-      connection.write(JSON.stringify({ id: game.id,
-                                    maxPlayers: game.maxPlayers,
-                                    decks: game.decks,
-                                    name: game.name}))
+      var players = [];
+      for (var i = 0; i < game.players.length; i++) {
+        players.push(game.players[i].name);
+      }
+
+      connection.write(JSON.stringify({
+        message: "state", 
+        id: game.id,
+        maxPlayers: game.maxPlayers,
+        decks: game.decks,
+        name: game.name,
+        players: players }));
       };
   });
 

@@ -1,4 +1,5 @@
 var tictactoe = require('./game_servers/tictactoe/tictactoe_server.js')
+var blackjack = require('./game_servers/blackjack/blackjack_server.js')
 var express = require('express');
 var sockjs  = require('sockjs');
 var app = express();
@@ -7,6 +8,7 @@ var sockjs_opts = {sockjs_url: "http://cdn.sockjs.org/sockjs-0.3.min.js"};
 var server = require('http').createServer(app); /*create a nodejs http server */
 
 tictactoe.tictactoeServer(sockjs_opts, server, "/games");
+blackjack.blackjackServer(sockjs_opts, server, "/games");
 
 app.use(express.static('public'));
 app.set('view engine', 'jade');
