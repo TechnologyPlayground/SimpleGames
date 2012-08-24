@@ -19,7 +19,7 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
 
       switch(data.message) {
         case 'new':
-          var newTable = new BlackjackTable.BlackjackTable({ 
+          var newTable = new BlackjackTable.create({ 
             id: nextTableId,
             maxPlayers: data.maxPlayers,
             decks: data.decks,
@@ -48,6 +48,10 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
           else {
             conn.write(JSON.stringify({ error: "Too many players" }));
           }
+          break;
+        case 'start game':
+          var table = tablesByPlayer[conn];
+          table.startGame();
           break;
         case 'quit':
           break;

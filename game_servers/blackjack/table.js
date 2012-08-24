@@ -21,10 +21,10 @@ function Table(config) {
   }
 
   self.startGame = function() {
-    currentGame = new BlackjackGame.BlackjackGame();
+    currentGame = new BlackjackGame.create();
   }
 }
 
 if (exports) {
-  exports.BlackjackTable = Table;
+  exports.create = Table;
 }

@@ -3,5 +3,5 @@ function Game(config) {
 }
 
 if (exports) {
-  exports.BlackjackGame = Game;
+  exports.create = Game;
 }
