@@ -13,7 +13,7 @@ block content
         li
           a(href="#", data-bind="click: $parent.joinTable, text: name")
           
-    a(data-bind="click: createTable") Create a new table
+    a(data-bind="click: createTable", href="#") Create a new table
     
   div(data-bind="visible: waitingForTable")
     div Waiting for the table to be ready

@@ -16,6 +16,7 @@ $(function() {
             };
             
             callback(datums);
+            $(this).dialog("close");
           }
         }
       });
