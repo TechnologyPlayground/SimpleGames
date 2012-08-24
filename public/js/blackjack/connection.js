@@ -11,18 +11,19 @@ function Connection() {
     sockjs = new SockJS(sockjs_url);
 
     sockjs.onopen = function() {
-      //game = new Game(self);
-      //game.waitForOpponent();
-    }
+      sockjs.send(JSON.stringify({ message: "list" }));
+    };
 
     sockjs.onmessage = function(e) {
       console.log(e);
       var data = JSON.parse(e.data);
 
       switch(data.message) {
-      
+        case "list":
+          game.setTableList(data.tables);
+          break;
       };
-    }
+    };
 
     sockjs.onclose = function() {
       console.log("Closing connection...");
@@ -36,5 +37,5 @@ function Connection() {
 
   self.quit = function() {
     sockjs.close();
-  }
+  };
 }

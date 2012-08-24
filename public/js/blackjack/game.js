@@ -1,17 +1,14 @@
 function Game(conn) {
   var self = this;
   var connection = conn;
-  var state = ko.observable("needs connection");
-  
-  self.needsConnection = ko.computed(function() {
-    return state() == "needs connection";
-  });
+  var state = ko.observable("selecting table");
+  self.tableList = ko.observableArray();
   
   self.selectingTable = ko.computed(function() {
     return state() == "selecting table";
   });
   
-  self.waitingFofGame = ko.computed(function() {
+  self.waitingForTable = ko.computed(function() {
     return state() == "waiting for table";
   });
   
@@ -23,7 +20,19 @@ function Game(conn) {
     return state() == "completed";
   });
   
+  self.setTableList = function(tables) {
+    tableList(tables);
+  };
+  
   self.connect = function() {
     connection.connect(self);
+  };
+  
+  self.joinTable = function(game) {
+    alert(game.id);
+  };
+  
+  self.createTable = function() {
+    
   };
 }
