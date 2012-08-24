@@ -82,7 +82,7 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
       }
 
       connection.write(JSON.stringify({
-        message: "state", 
+        message: "table created",
         id: table.id,
         maxPlayers: table.maxPlayers,
         decks: table.decks,
