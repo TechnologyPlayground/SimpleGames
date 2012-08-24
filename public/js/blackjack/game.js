@@ -1,4 +1,4 @@
-function Game(conn) {
+function Game(conn, getNewTableData) {
   var self = this;
   var connection = conn;
   var state = ko.observable("selecting table");
@@ -21,7 +21,7 @@ function Game(conn) {
   });
   
   self.setTableList = function(tables) {
-    tableList(tables);
+    self.tableList(tables);
   };
   
   self.connect = function() {
@@ -33,6 +33,8 @@ function Game(conn) {
   };
   
   self.createTable = function() {
-    
+    getNewTableData(function(data) {
+      connection.createTable(data);
+    });
   };
 }

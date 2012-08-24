@@ -20,16 +20,17 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
       switch(data.message) {
         case 'new':
           var newTable = new BlackjackTable.BlackjackTable({ 
-            id: nextTableId,
+            id: self.nextTableId,
             maxPlayers: data.maxPlayers,
             decks: data.decks,
             name: data.name 
           });
-          tables[newTable.id] = newTable;
-          tables[conn] = newTable;
+          console.log(newTable);
+          self.tables[newTable.id] = newTable;
+          self.tablesByPlayer[conn] = newTable;
           newTable.addPlayer(conn, data.playerName);
           sendBasicTableData(conn, newTable);
-          newGameId++;
+          self.nextTableId++;
           break;
         case 'join':
           var table = tables[data.id];
@@ -52,18 +53,20 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
         case 'quit':
           break;
         case 'list':
+          console.log(self.tables);
           var tableList = [];
-          for (var i = 0; i < tables.length; i++) {
+          for (table in self.tables) {
             tableList.push({
-              id: tables[i].id,
-              name: tables[i].name,
-              players: tables[i].players.length
+              id: self.tables[table].id,
+              name: self.tables[table].name,
+              players: self.tables[table].players.length
             });
           }
           conn.write(JSON.stringify({ 
             message: "list",
             tables: tableList
           }));
+          console.log(tableList);
           break;
       }
     });
