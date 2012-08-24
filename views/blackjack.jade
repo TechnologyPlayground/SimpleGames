@@ -5,7 +5,23 @@ block append head
 
 block content
   h1 Blackjack
+  
+  div(data-bind="visible: needsConnection")
+    a(href="#", data-bind="click: connect") Connect
+  
+  div(data-bind="visible: selectingTable")
+    div Insert table list here
+    
+  div(data-bind="visible: waitingForTable")
+    div Waiting for the table to be ready
+    
+  div(data-bind="visible: inProgress")
+    div Game goes here
+    
+  div(data-bind="visible: completed")
+    div The game is done.
 
   script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
   script(src="/js/lib/sockjs-0.3.1.min.js")
   script(src="/js/lib/knockout-2.1.0.js")
+  
