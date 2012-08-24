@@ -1,4 +1,5 @@
 var sockjs  = require('sockjs');
+var BlackjackTable  = require('./table');
 
 exports.blackjackServer = function(sockjs_opts, server, prefix) {
   var blackjack = sockjs.createServer(sockjs_opts);
@@ -18,7 +19,7 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
 
       switch(data.message) {
         case 'new':
-          var newTable = new Table({ 
+          var newTable = new BlackjackTable.BlackjackTable({ 
             id: nextTableId,
             maxPlayers: data.maxPlayers,
             decks: data.decks,
@@ -53,14 +54,16 @@ exports.blackjackServer = function(sockjs_opts, server, prefix) {
         case 'list':
           var tableList = [];
           for (var i = 0; i < tables.length; i++) {
-            tableList.push({ 
-              message: "list",
+            tableList.push({
               id: tables[i].id,
               name: tables[i].name,
               players: tables[i].players.length
             });
           }
-          conn.write(JSON.stringify(tableList));
+          conn.write(JSON.stringify({ 
+            message: "list",
+            tables: tableList
+          }));
           break;
       }
     });

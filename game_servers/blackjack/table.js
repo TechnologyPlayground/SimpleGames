@@ -1,3 +1,5 @@
+var BlackjackGame  = require('./game');
+
 function Table(config) {
   var self = this;
   self.id = config.id;
@@ -5,6 +7,8 @@ function Table(config) {
   self.decks = config.decks;
   self.name = config.name;
   self.players = [];
+
+  var currentGame = {};
 
   self.addPlayer = function(player, name) {
     if (self.players.length == self.maxPlayers) {
@@ -15,4 +19,12 @@ function Table(config) {
                        name: name});
     return true;
   }
+
+  self.startGame = function() {
+    currentGame = new BlackjackGame.BlackjackGame();
+  }
+}
+
+if (exports) {
+  exports.BlackjackTable = Table;
 }
