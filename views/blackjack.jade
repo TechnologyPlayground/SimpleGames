@@ -2,15 +2,18 @@ extends layout
 
 block append head
   link(href="/css/tictactoe.css", rel="stylesheet", type="text/css")
+  link(href="/css/jquery-ui-1.8.23.custom.css", rel="stylesheet", type="text/css")
 
 block content
   h1 Blackjack
   
-  div(data-bind="visible: needsConnection")
-    a(href="#", data-bind="click: connect") Connect
-  
   div(data-bind="visible: selectingTable")
-    div Insert table list here
+    h2 Tables
+      ul(data-bind="foreach: tableList")
+        li
+          a(href="#", data-bind="click: $parent.joinTable, text: name")
+          
+    a(data-bind="click: createTable") Create a new table
     
   div(data-bind="visible: waitingForTable")
     div Waiting for the table to be ready
@@ -20,8 +23,25 @@ block content
     
   div(data-bind="visible: completed")
     div The game is done.
-
+  
+  #newTablePopup(style="display:none;")
+    div
+      label(for="tableName") Name:
+      input#tableName
+    div
+      label(for="maxPlayers") Players:
+      input#maxPlayers
+    div
+      label(for="decks") Number of decks:
+      input#decks
+    div
+      label(for="playerName") What yo name, foo!:
+      input#playerName
+  
   script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
   script(src="/js/lib/sockjs-0.3.1.min.js")
   script(src="/js/lib/knockout-2.1.0.js")
-  
+  script(src="/js/lib/jquery-ui-1.8.23.custom.min.js")
+  script(src="/js/blackjack/connection.js")
+  script(src="/js/blackjack/game.js")
+  script(src="/js/blackjack/main.js")
